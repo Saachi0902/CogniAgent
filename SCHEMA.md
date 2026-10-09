@@ -1,7 +1,7 @@
 # System Development Schema: CogniAgent
 
 > **Project:** CogniAgent — Autonomous Multi-Agent Research, Fact-Checking & Intelligence Synthesis Engine  
-> **Author:** Swarnim Jaiswal  
+> **Author:** [Saachi0902](https://github.com/Saachi0902/CogniAgent)  
 > **Course / Deliverable:** Digital Assignment (DA) — Agentic AI Systems  
 > **Schema Standard:** JSON Schema Draft 2020-12 / Pydantic v2 / UML Sequence & State Diagrams  
 

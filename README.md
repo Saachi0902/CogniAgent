@@ -8,8 +8,8 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 > **Digital Assignment (DA) Submission: Agentic AI Systems**  
-> **Student:** Swarnim Jaiswal  
-> **Repository:** [https://github.com/swarnimjaiswal2023/CogniAgent](https://github.com/swarnimjaiswal2023/CogniAgent)  
+> **Student / GitHub:** [Saachi0902](https://github.com/Saachi0902)  
+> **Repository:** [https://github.com/Saachi0902/CogniAgent](https://github.com/Saachi0902/CogniAgent)  
 > **Schema Documentation:** [SCHEMA.md](./SCHEMA.md) | [docs/schema.json](./docs/schema.json)  
 
 ---
@@ -98,7 +98,7 @@ CogniAgent's entire data model and state machine are strictly defined with Pydan
 
 ```bash
 # Clone the repository
-git clone https://github.com/swarnimjaiswal2023/CogniAgent.git
+git clone https://github.com/Saachi0902/CogniAgent.git
 cd CogniAgent
 
 # Create and activate virtual environment
@@ -277,4 +277,4 @@ Agentic AI transitions classical static LLMs into goal-directed autonomous actor
 
 This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
 
-Developed with ❤️ by **Swarnim Jaiswal** for Digital Assignment Submission.
+Developed with ❤️ for Digital Assignment Submission by [Saachi0902](https://github.com/Saachi0902).
