@@ -1,0 +1,1158 @@
+{
+  "ResearchPlan": {
+    "$defs": {
+      "SubTask": {
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the sub-task, e.g. task_1",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "description": "Concise goal of the sub-task",
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "description": "Detailed instructions for the research agent",
+            "title": "Description",
+            "type": "string"
+          },
+          "assigned_agent": {
+            "default": "researcher",
+            "description": "Agent responsible for execution",
+            "title": "Assigned Agent",
+            "type": "string"
+          },
+          "dependencies": {
+            "description": "IDs of tasks that must complete first",
+            "items": {
+              "type": "string"
+            },
+            "title": "Dependencies",
+            "type": "array"
+          },
+          "status": {
+            "default": "pending",
+            "description": "Status: pending, in_progress, completed, failed",
+            "title": "Status",
+            "type": "string"
+          },
+          "output": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Resulting output from sub-task execution",
+            "title": "Output"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description"
+        ],
+        "title": "SubTask",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "topic": {
+        "description": "Main user research prompt/topic",
+        "title": "Topic",
+        "type": "string"
+      },
+      "scope": {
+        "description": "Defined research boundary and core objective",
+        "title": "Scope",
+        "type": "string"
+      },
+      "tasks": {
+        "description": "Ordered decomposition of tasks",
+        "items": {
+          "$ref": "#/$defs/SubTask"
+        },
+        "title": "Tasks",
+        "type": "array"
+      },
+      "created_at": {
+        "title": "Created At",
+        "type": "string"
+      }
+    },
+    "required": [
+      "topic",
+      "scope"
+    ],
+    "title": "ResearchPlan",
+    "type": "object"
+  },
+  "SubTask": {
+    "properties": {
+      "id": {
+        "description": "Unique identifier for the sub-task, e.g. task_1",
+        "title": "Id",
+        "type": "string"
+      },
+      "title": {
+        "description": "Concise goal of the sub-task",
+        "title": "Title",
+        "type": "string"
+      },
+      "description": {
+        "description": "Detailed instructions for the research agent",
+        "title": "Description",
+        "type": "string"
+      },
+      "assigned_agent": {
+        "default": "researcher",
+        "description": "Agent responsible for execution",
+        "title": "Assigned Agent",
+        "type": "string"
+      },
+      "dependencies": {
+        "description": "IDs of tasks that must complete first",
+        "items": {
+          "type": "string"
+        },
+        "title": "Dependencies",
+        "type": "array"
+      },
+      "status": {
+        "default": "pending",
+        "description": "Status: pending, in_progress, completed, failed",
+        "title": "Status",
+        "type": "string"
+      },
+      "output": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "description": "Resulting output from sub-task execution",
+        "title": "Output"
+      }
+    },
+    "required": [
+      "id",
+      "title",
+      "description"
+    ],
+    "title": "SubTask",
+    "type": "object"
+  },
+  "ResearchFindings": {
+    "$defs": {
+      "CitationItem": {
+        "properties": {
+          "id": {
+            "description": "e.g. [1], [2]",
+            "title": "Id",
+            "type": "string"
+          },
+          "source": {
+            "description": "Source title, organization, or URL",
+            "title": "Source",
+            "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Direct URL if available",
+            "title": "Url"
+          },
+          "reliability_score": {
+            "default": 0.9,
+            "description": "Confidence in source validity 0.0 - 1.0",
+            "title": "Reliability Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "source"
+        ],
+        "title": "CitationItem",
+        "type": "object"
+      },
+      "FactItem": {
+        "properties": {
+          "claim": {
+            "description": "Key fact or empirical finding",
+            "title": "Claim",
+            "type": "string"
+          },
+          "source_citation": {
+            "description": "Citation marker referencing the source",
+            "title": "Source Citation",
+            "type": "string"
+          },
+          "evidence": {
+            "description": "Supporting excerpt or data point",
+            "title": "Evidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim",
+          "source_citation",
+          "evidence"
+        ],
+        "title": "FactItem",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "topic": {
+        "title": "Topic",
+        "type": "string"
+      },
+      "task_id": {
+        "title": "Task Id",
+        "type": "string"
+      },
+      "summary": {
+        "title": "Summary",
+        "type": "string"
+      },
+      "key_facts": {
+        "items": {
+          "$ref": "#/$defs/FactItem"
+        },
+        "title": "Key Facts",
+        "type": "array"
+      },
+      "citations": {
+        "items": {
+          "$ref": "#/$defs/CitationItem"
+        },
+        "title": "Citations",
+        "type": "array"
+      },
+      "metrics_or_data": {
+        "additionalProperties": true,
+        "title": "Metrics Or Data",
+        "type": "object"
+      },
+      "raw_evidence": {
+        "default": "",
+        "title": "Raw Evidence",
+        "type": "string"
+      }
+    },
+    "required": [
+      "topic",
+      "task_id",
+      "summary"
+    ],
+    "title": "ResearchFindings",
+    "type": "object"
+  },
+  "CriticScore": {
+    "properties": {
+      "factuality": {
+        "description": "Verification of facts and lack of hallucination",
+        "maximum": 1.0,
+        "minimum": 0.0,
+        "title": "Factuality",
+        "type": "number"
+      },
+      "completeness": {
+        "description": "Coverage of sub-topics and depth",
+        "maximum": 1.0,
+        "minimum": 0.0,
+        "title": "Completeness",
+        "type": "number"
+      },
+      "citation_validity": {
+        "description": "Presence of verifiable references",
+        "maximum": 1.0,
+        "minimum": 0.0,
+        "title": "Citation Validity",
+        "type": "number"
+      },
+      "coherence": {
+        "description": "Logical clarity and rigor",
+        "maximum": 1.0,
+        "minimum": 0.0,
+        "title": "Coherence",
+        "type": "number"
+      },
+      "composite_score": {
+        "description": "Weighted average score",
+        "maximum": 1.0,
+        "minimum": 0.0,
+        "title": "Composite Score",
+        "type": "number"
+      }
+    },
+    "required": [
+      "factuality",
+      "completeness",
+      "citation_validity",
+      "coherence",
+      "composite_score"
+    ],
+    "title": "CriticScore",
+    "type": "object"
+  },
+  "CriticFeedback": {
+    "$defs": {
+      "CriticScore": {
+        "properties": {
+          "factuality": {
+            "description": "Verification of facts and lack of hallucination",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Factuality",
+            "type": "number"
+          },
+          "completeness": {
+            "description": "Coverage of sub-topics and depth",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Completeness",
+            "type": "number"
+          },
+          "citation_validity": {
+            "description": "Presence of verifiable references",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Citation Validity",
+            "type": "number"
+          },
+          "coherence": {
+            "description": "Logical clarity and rigor",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Coherence",
+            "type": "number"
+          },
+          "composite_score": {
+            "description": "Weighted average score",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Composite Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "factuality",
+          "completeness",
+          "citation_validity",
+          "coherence",
+          "composite_score"
+        ],
+        "title": "CriticScore",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "passed": {
+        "description": "True if composite_score >= threshold",
+        "title": "Passed",
+        "type": "boolean"
+      },
+      "scores": {
+        "$ref": "#/$defs/CriticScore"
+      },
+      "strengths": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Strengths",
+        "type": "array"
+      },
+      "deficiencies": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Deficiencies",
+        "type": "array"
+      },
+      "revision_instructions": {
+        "description": "Specific actions needed if failed",
+        "items": {
+          "type": "string"
+        },
+        "title": "Revision Instructions",
+        "type": "array"
+      },
+      "iteration_number": {
+        "default": 1,
+        "title": "Iteration Number",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "passed",
+      "scores"
+    ],
+    "title": "CriticFeedback",
+    "type": "object"
+  },
+  "FinalReport": {
+    "$defs": {
+      "CitationItem": {
+        "properties": {
+          "id": {
+            "description": "e.g. [1], [2]",
+            "title": "Id",
+            "type": "string"
+          },
+          "source": {
+            "description": "Source title, organization, or URL",
+            "title": "Source",
+            "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Direct URL if available",
+            "title": "Url"
+          },
+          "reliability_score": {
+            "default": 0.9,
+            "description": "Confidence in source validity 0.0 - 1.0",
+            "title": "Reliability Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "source"
+        ],
+        "title": "CitationItem",
+        "type": "object"
+      },
+      "SectionReport": {
+        "properties": {
+          "heading": {
+            "title": "Heading",
+            "type": "string"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string"
+          },
+          "subsections": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Subsections",
+            "type": "object"
+          }
+        },
+        "required": [
+          "heading",
+          "content"
+        ],
+        "title": "SectionReport",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "title": {
+        "title": "Title",
+        "type": "string"
+      },
+      "topic": {
+        "title": "Topic",
+        "type": "string"
+      },
+      "executive_summary": {
+        "title": "Executive Summary",
+        "type": "string"
+      },
+      "sections": {
+        "items": {
+          "$ref": "#/$defs/SectionReport"
+        },
+        "title": "Sections",
+        "type": "array"
+      },
+      "comparative_matrix": {
+        "anyOf": [
+          {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Comparative Matrix"
+      },
+      "limitations_and_risks": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Limitations And Risks",
+        "type": "array"
+      },
+      "recommendations": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Recommendations",
+        "type": "array"
+      },
+      "bibliography": {
+        "items": {
+          "$ref": "#/$defs/CitationItem"
+        },
+        "title": "Bibliography",
+        "type": "array"
+      },
+      "critic_composite_score": {
+        "default": 0.0,
+        "title": "Critic Composite Score",
+        "type": "number"
+      },
+      "total_iterations": {
+        "default": 1,
+        "title": "Total Iterations",
+        "type": "integer"
+      },
+      "generated_at": {
+        "title": "Generated At",
+        "type": "string"
+      }
+    },
+    "required": [
+      "title",
+      "topic",
+      "executive_summary"
+    ],
+    "title": "FinalReport",
+    "type": "object"
+  },
+  "AgentState": {
+    "$defs": {
+      "CitationItem": {
+        "properties": {
+          "id": {
+            "description": "e.g. [1], [2]",
+            "title": "Id",
+            "type": "string"
+          },
+          "source": {
+            "description": "Source title, organization, or URL",
+            "title": "Source",
+            "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Direct URL if available",
+            "title": "Url"
+          },
+          "reliability_score": {
+            "default": 0.9,
+            "description": "Confidence in source validity 0.0 - 1.0",
+            "title": "Reliability Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "source"
+        ],
+        "title": "CitationItem",
+        "type": "object"
+      },
+      "CriticFeedback": {
+        "properties": {
+          "passed": {
+            "description": "True if composite_score >= threshold",
+            "title": "Passed",
+            "type": "boolean"
+          },
+          "scores": {
+            "$ref": "#/$defs/CriticScore"
+          },
+          "strengths": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Strengths",
+            "type": "array"
+          },
+          "deficiencies": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Deficiencies",
+            "type": "array"
+          },
+          "revision_instructions": {
+            "description": "Specific actions needed if failed",
+            "items": {
+              "type": "string"
+            },
+            "title": "Revision Instructions",
+            "type": "array"
+          },
+          "iteration_number": {
+            "default": 1,
+            "title": "Iteration Number",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "passed",
+          "scores"
+        ],
+        "title": "CriticFeedback",
+        "type": "object"
+      },
+      "CriticScore": {
+        "properties": {
+          "factuality": {
+            "description": "Verification of facts and lack of hallucination",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Factuality",
+            "type": "number"
+          },
+          "completeness": {
+            "description": "Coverage of sub-topics and depth",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Completeness",
+            "type": "number"
+          },
+          "citation_validity": {
+            "description": "Presence of verifiable references",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Citation Validity",
+            "type": "number"
+          },
+          "coherence": {
+            "description": "Logical clarity and rigor",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Coherence",
+            "type": "number"
+          },
+          "composite_score": {
+            "description": "Weighted average score",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Composite Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "factuality",
+          "completeness",
+          "citation_validity",
+          "coherence",
+          "composite_score"
+        ],
+        "title": "CriticScore",
+        "type": "object"
+      },
+      "FactItem": {
+        "properties": {
+          "claim": {
+            "description": "Key fact or empirical finding",
+            "title": "Claim",
+            "type": "string"
+          },
+          "source_citation": {
+            "description": "Citation marker referencing the source",
+            "title": "Source Citation",
+            "type": "string"
+          },
+          "evidence": {
+            "description": "Supporting excerpt or data point",
+            "title": "Evidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim",
+          "source_citation",
+          "evidence"
+        ],
+        "title": "FactItem",
+        "type": "object"
+      },
+      "FinalReport": {
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "topic": {
+            "title": "Topic",
+            "type": "string"
+          },
+          "executive_summary": {
+            "title": "Executive Summary",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/$defs/SectionReport"
+            },
+            "title": "Sections",
+            "type": "array"
+          },
+          "comparative_matrix": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Comparative Matrix"
+          },
+          "limitations_and_risks": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations And Risks",
+            "type": "array"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "bibliography": {
+            "items": {
+              "$ref": "#/$defs/CitationItem"
+            },
+            "title": "Bibliography",
+            "type": "array"
+          },
+          "critic_composite_score": {
+            "default": 0.0,
+            "title": "Critic Composite Score",
+            "type": "number"
+          },
+          "total_iterations": {
+            "default": 1,
+            "title": "Total Iterations",
+            "type": "integer"
+          },
+          "generated_at": {
+            "title": "Generated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "topic",
+          "executive_summary"
+        ],
+        "title": "FinalReport",
+        "type": "object"
+      },
+      "ResearchFindings": {
+        "properties": {
+          "topic": {
+            "title": "Topic",
+            "type": "string"
+          },
+          "task_id": {
+            "title": "Task Id",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "key_facts": {
+            "items": {
+              "$ref": "#/$defs/FactItem"
+            },
+            "title": "Key Facts",
+            "type": "array"
+          },
+          "citations": {
+            "items": {
+              "$ref": "#/$defs/CitationItem"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "metrics_or_data": {
+            "additionalProperties": true,
+            "title": "Metrics Or Data",
+            "type": "object"
+          },
+          "raw_evidence": {
+            "default": "",
+            "title": "Raw Evidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic",
+          "task_id",
+          "summary"
+        ],
+        "title": "ResearchFindings",
+        "type": "object"
+      },
+      "ResearchPlan": {
+        "properties": {
+          "topic": {
+            "description": "Main user research prompt/topic",
+            "title": "Topic",
+            "type": "string"
+          },
+          "scope": {
+            "description": "Defined research boundary and core objective",
+            "title": "Scope",
+            "type": "string"
+          },
+          "tasks": {
+            "description": "Ordered decomposition of tasks",
+            "items": {
+              "$ref": "#/$defs/SubTask"
+            },
+            "title": "Tasks",
+            "type": "array"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic",
+          "scope"
+        ],
+        "title": "ResearchPlan",
+        "type": "object"
+      },
+      "SectionReport": {
+        "properties": {
+          "heading": {
+            "title": "Heading",
+            "type": "string"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string"
+          },
+          "subsections": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Subsections",
+            "type": "object"
+          }
+        },
+        "required": [
+          "heading",
+          "content"
+        ],
+        "title": "SectionReport",
+        "type": "object"
+      },
+      "StepLog": {
+        "properties": {
+          "timestamp": {
+            "title": "Timestamp",
+            "type": "string"
+          },
+          "agent_name": {
+            "title": "Agent Name",
+            "type": "string"
+          },
+          "action_type": {
+            "title": "Action Type",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Details"
+          }
+        },
+        "required": [
+          "agent_name",
+          "action_type",
+          "message"
+        ],
+        "title": "StepLog",
+        "type": "object"
+      },
+      "SubTask": {
+        "properties": {
+          "id": {
+            "description": "Unique identifier for the sub-task, e.g. task_1",
+            "title": "Id",
+            "type": "string"
+          },
+          "title": {
+            "description": "Concise goal of the sub-task",
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "description": "Detailed instructions for the research agent",
+            "title": "Description",
+            "type": "string"
+          },
+          "assigned_agent": {
+            "default": "researcher",
+            "description": "Agent responsible for execution",
+            "title": "Assigned Agent",
+            "type": "string"
+          },
+          "dependencies": {
+            "description": "IDs of tasks that must complete first",
+            "items": {
+              "type": "string"
+            },
+            "title": "Dependencies",
+            "type": "array"
+          },
+          "status": {
+            "default": "pending",
+            "description": "Status: pending, in_progress, completed, failed",
+            "title": "Status",
+            "type": "string"
+          },
+          "output": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Resulting output from sub-task execution",
+            "title": "Output"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description"
+        ],
+        "title": "SubTask",
+        "type": "object"
+      }
+    },
+    "properties": {
+      "workflow_id": {
+        "title": "Workflow Id",
+        "type": "string"
+      },
+      "user_query": {
+        "title": "User Query",
+        "type": "string"
+      },
+      "current_phase": {
+        "default": "initialized",
+        "title": "Current Phase",
+        "type": "string"
+      },
+      "plan": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/ResearchPlan"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "accumulated_findings": {
+        "items": {
+          "$ref": "#/$defs/ResearchFindings"
+        },
+        "title": "Accumulated Findings",
+        "type": "array"
+      },
+      "critic_history": {
+        "items": {
+          "$ref": "#/$defs/CriticFeedback"
+        },
+        "title": "Critic History",
+        "type": "array"
+      },
+      "final_report": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/FinalReport"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "current_iteration": {
+        "default": 0,
+        "title": "Current Iteration",
+        "type": "integer"
+      },
+      "max_iterations": {
+        "default": 3,
+        "title": "Max Iterations",
+        "type": "integer"
+      },
+      "critic_approved": {
+        "default": false,
+        "title": "Critic Approved",
+        "type": "boolean"
+      },
+      "hitl_approved": {
+        "default": true,
+        "title": "Hitl Approved",
+        "type": "boolean"
+      },
+      "hitl_user_notes": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Hitl User Notes"
+      },
+      "logs": {
+        "items": {
+          "$ref": "#/$defs/StepLog"
+        },
+        "title": "Logs",
+        "type": "array"
+      },
+      "created_at": {
+        "title": "Created At",
+        "type": "string"
+      },
+      "updated_at": {
+        "title": "Updated At",
+        "type": "string"
+      }
+    },
+    "required": [
+      "workflow_id",
+      "user_query"
+    ],
+    "title": "AgentState",
+    "type": "object"
+  },
+  "Tools": [
+    {
+      "name": "web_search",
+      "description": "Searches authoritative web sources, encyclopedias, and news for facts, statistics, and citations.",
+      "parameters": [
+        {
+          "name": "query",
+          "param_type": "string",
+          "description": "The search query keywords",
+          "required": true
+        },
+        {
+          "name": "max_results",
+          "param_type": "integer",
+          "description": "Maximum number of results to return",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "calculator",
+      "description": "Performs safe arithmetic calculations, percentage differences, growth rates, and statistical averages.",
+      "parameters": [
+        {
+          "name": "expression",
+          "param_type": "string",
+          "description": "Mathematical expression (e.g., '(88.1 - 62.4) / 62.4 * 100')",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "document_reader",
+      "description": "Reads local markdown, text, or data files from workspace knowledge repositories.",
+      "parameters": [
+        {
+          "name": "file_path",
+          "param_type": "string",
+          "description": "Relative path of file to inspect",
+          "required": true
+        },
+        {
+          "name": "max_chars",
+          "param_type": "integer",
+          "description": "Max characters to read",
+          "required": false
+        }
+      ]
+    }
+  ]
+}
